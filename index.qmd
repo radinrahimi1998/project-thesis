@@ -35,9 +35,30 @@ number-sections: true
 
 ## Introduction
 
-In semiconductor devices to estimate intended and unintended strain distributions it is vitally important to use Measurtement of strain with high spatial resolution and high preciscion [@zeltmann_patterned_2020]. It is also neccesary have combination of high resolution with large field of view.
+Different properties in materials, such as electronic, mechanical, and chemical properties, are related to structural deformation[@Wang_Eldred_Smith_Gao_2022].In semiconductor devices to estimate intended and unintended strain distributions it is vitally important to use Measurtement of strain with high spatial resolution and high preciscion [@zeltmann_patterned_2020]. It is also neccesary have combination of high resolution with large field of view.
 X-rays techniques are able measure strain with points that it is important, high resolution, high precision(≈10^(-5)[@darbal_automated_2013] [@robinson_coherent_2009])and large field of view, but they do not keep the need of high spatial resolution(≈500nm[@darbal_automated_2013]). Which makes them inappropriate for analyzing the next generation of nanoscale materials and devices [@darbal_automated_2013] [@robinson_coherent_2009].
 #%% md
 Quantitive structure retrieval using computer-controlled high resolution electron microscopy(HREM)images is much less frequent rather than X-ray diffraction patterns, despite its potential for applications including interfaces and dislocations in area like high localized crystal defect structures [@mobus_iterative_1998] . These methods is  dictated the local intensity in micrograph by the position of atomic columns [@du_accuracy_2006] . Using images instead of diffraction offers high spatial resolution, but the field of view is limited [@mahr_theoretical_2015] . The shape of the measured lattice strain profiles can indicate artifacts depending on the selected imaging conditions. These artifacts arise from continuous contrast variations extending across several monolayers from the interface positions, caused by local crystal tilts in elastically relaxed specimens. Despite this, the average strain in thicker layers can be measured with adequate accuracy, providing a rough estimate of layer compositions when analyzing experimental micrographs  [@tillmann_impact_2000] .
 On the other hand, strain can be measured using TEM techniques based on diffraction. This paper discusses six different TEM techniques which provide the best spatial resolution (below 5 nm[@zeltmann_patterned_2020]) and quantitative strain measurements in the TEM [@darbal_automated_2013] [@robinson_coherent_2009]. NBED, CBED, HRTEM, DFEH, HRSTEM, HOLZ.
+
+## Methods {#sec-methods}
+
+### Strain Measurement and Mapping
+The relationship between structure and material properties can be determined by measuring the strain that probes the structural deformation[@Wang_Eldred_Smith_Gao_2022].
+
+### NBED
+One method for measuring strain is the nano-beam electron diffraction (NBED) technique. This method uses a quasi-parallel electron beam with a diameter of less than 20 nm at full width at half maximum (FWHM) and a convergence semi-angle of less than 1 mrad. By analyzing shifts in the positions of the diffraction spots within the patterns, variations in the lattice parameters of the sample—and consequently the strain—can be determined [@beche_strain_2013]. This advance, that by using NBED it is possible to measure strain, has been made possible through the development of high-speed direct electron detectors, capable of capturing hundreds of thousands of diffraction patterns, which can then be analyzed to extract a wealth of detailed information. [@pekin_situ_2018]. Strain measurements obtained through NBED experiments are generally easier to analyze because the local strain precision does not rely on directly determining the position of atomic columns. As a result, the field of view is basically unlimited, allowing for the use of nearly any sample and orientation[@ophus_four-dimensional_2019].
+$$
+d= 0.51\frac{\lambda}{\alpha}
+$${#eq-NBED}
+There is a relationship between the probe's FWHM (d) and the convergence angle ($\alpha$) via the wavelength of the incident electron beam ($\lambda$), called the Rayleigh criterion @eq-NBED. One of the goal of NBED is to identify the optimal parameters for d and α that enable the creation of small probe for high spatial resolution to minimize the influence of dynamical diffraction[@beche_strain_2013]. @fig-NBED Schematic of an NBED strain measurement, highlighting the inverse relationship between interatomic distance and diffraction disk spacing [@ophus_four-dimensional_2019].
+
+![Schematic of NBED strain measurement](images/NBED1.png){#fig-NBED}
+
+An article @cooper_strain_2024 presents @fig-NBED-2, which depicts a near-parallel electron beam directed at a {110} silicon specimen. The beam's full width at half maximum (FWHM) measures approximately 6 nm. In nano-beam electron diffraction (NBED), this parallel beam is scanned over the target region, capturing diffraction patterns. These patterns are then analyzed to calculate strain by determining the shifts in the diffracted spots. The analysis utilizes specialized automated software developed internally at CEA.
+
+![NBED Schematic. (a) TEM speciemen near parallel electron probe on a {110} Si (b) showing FWHM (c)&(d) diffraction pattern is recorded at eache point from which the strain can be determined in STEM mode and using software developed at CEA for peak fitting. [@cooper_strain_2024]](images/NBED2.png){#fig-NBED-2}
+
+
+
 
