@@ -60,5 +60,41 @@ An article @cooper_strain_2024 presents @fig-NBED-2, which depicts a near-parall
 ![NBED Schematic. (a) TEM speciemen near parallel electron probe on a {110} Si (b) showing FWHM (c)&(d) diffraction pattern is recorded at eache point from which the strain can be determined in STEM mode and using software developed at CEA for peak fitting. [@cooper_strain_2024]](images/NBED2.png){#fig-NBED-2}
 
 
+## Measuring Lattice Vectors from Nanobeam Electron Diffraction Patterns
 
+Strain measurement using the locations of diffracted peaks is a well-established application of Bragg's law and has been successfully implemented through various experimental techniques.
+Accurate data collection is the first and most important phase in the Nanobeam Electron Diffraction(NBED) process. The sample must be placed near enough to the zone axis to enable illumination of several diffraction disks, although it need not be perfectly aligned.
+As shown schematically in @fig-NBED3, a full diffraction pattern is recorded for every pixel in the reconstructed strain image. The locations of the diffraction disks are taken from these patterns and saved as subpixel-accurate coordinates in reciprocal space. Following the recording of every disk position, the local lattice vectors are computed using this data.
+![](images/NBED3.png){#fig-NBED3}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$$
+\begin{bmatrix}
+\varepsilon_{xx} & \frac{1}{2} (\varepsilon_{xy} - \theta) \\
+\frac{1}{2} (\varepsilon_{yx} + \theta) & \varepsilon_{yy}
+\end{bmatrix}
+= T -
+\begin{bmatrix}
+1 & 0 \\
+0 & 1
+\end{bmatrix}
+$$
 
