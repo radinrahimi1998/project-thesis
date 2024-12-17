@@ -264,7 +264,7 @@ Table&nbsp;1: comparing different techniques for strain measurement with transmi
 </div>
 </section>
 <section id="sec-methods" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="sec-methods"><span class="header-section-number">2</span> Methods</h2>
+<h2 data-number="2" class="anchored" data-anchor-id="sec-methods"><span class="header-section-number">2</span> Overview</h2>
 <section id="strain-measurement-and-mapping" class="level3" data-number="2.1">
 <h3 data-number="2.1" class="anchored" data-anchor-id="strain-measurement-and-mapping"><span class="header-section-number">2.1</span> Strain Measurement and Mapping</h3>
 <p>The relationship between structure and material properties can be determined by measuring the strain that probes the structural deformation<span class="citation" data-cites="Wang_Eldred_Smith_Gao_2022">(<a href="#ref-Wang_Eldred_Smith_Gao_2022" role="doc-biblioref">Wang et al. 2022</a>)</span>.For mesearing strain there is two techniques, Peak Finding Analysis (PF) and Geometric Phase Analysis (GPA)<span class="citation" data-cites="Cherkashin_Louiset_Chmielewski_Kim_Dubourdieu_Schamm-Chardon_2023">(<a href="#ref-Cherkashin_Louiset_Chmielewski_Kim_Dubourdieu_Schamm-Chardon_2023" role="doc-biblioref">Cherkashin et al. 2023</a>)</span>. Peak-finding techniques offer some advantages, requiring less memory and CPU resources by avoiding complex bidimensional Fourier transforms, except when noise reduction is performed in Fourier space. On the other hand, the Geometric Phase method excels in strain mapping within regions containing structural defects, particularly around dislocations, providing detailed insights into local material deformation <span class="citation" data-cites="Galindo_Kret_Sanchez_Laval_Yáñez_Pizarro_Guerrero_Ben_Molina_2007">(<a href="#ref-Galindo_Kret_Sanchez_Laval_Yáñez_Pizarro_Guerrero_Ben_Molina_2007" role="doc-biblioref">Galindo et al. 2007</a>)</span>.</p>
@@ -297,8 +297,15 @@ Table&nbsp;1: comparing different techniques for strain measurement with transmi
 <p>This approach enables precise measurement of crystalline deformations at microscopic scales, providing critical insights into material behavior under stress and strain conditions.</p>
 </section>
 </section>
-<section id="nbed" class="level3" data-number="2.2">
-<h3 data-number="2.2" class="anchored" data-anchor-id="nbed"><span class="header-section-number">2.2</span> NBED</h3>
+<section id="orientation-mapping" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="orientation-mapping"><span class="header-section-number">2.2</span> Orientation Mapping</h3>
+<p>Polycrystalline materials, which are composed of many small grains arranged randomly, have properties like mechanical strength, optical response and thermal conductivity that are influenced by the density and orientation of grain boundaries. therefor, orientation mapping of these grains is important to understand and optimizing their properties. One new approach to orientation mapping in TEM involves diffraction space measurements. Diffraction patterns contains Bragg spots that are inversely proportional to the atomic plane spacing, perpendicular to electron beam direction. Different techniques like NBED or four-dimensional STEM(4D-STEM) can be used to orientation mapping. To analyze 4D-STEM datasets, automated crystal orientation mapping (ACOM) is often used. This involves template matching diffraction patterns to identify grain orientations. ACOM has been widely adopted in materials science. The flexibility of ACOM has allowed its application in diverse experiments, including liquid cell measurements and scanning confocal electron diffraction. Additionally, ACOM is often paired with precession electron diffraction, where the STEM beam rotates around a cone to improve the clarity of diffraction patterns (<span class="citation" data-cites="Ophus_Zeltmann_Bruefach_Rakowski_Savitzky_Minor_Scott_2022">Ophus et al. (<a href="#ref-Ophus_Zeltmann_Bruefach_Rakowski_Savitzky_Minor_Scott_2022" role="doc-biblioref">2022</a>)</span>).</p>
+</section>
+</section>
+<section id="methods" class="level2" data-number="3">
+<h2 data-number="3" class="anchored" data-anchor-id="methods"><span class="header-section-number">3</span> Methods</h2>
+<section id="nbed" class="level3" data-number="3.1">
+<h3 data-number="3.1" class="anchored" data-anchor-id="nbed"><span class="header-section-number">3.1</span> NBED</h3>
 <p>One method for measuring strain is the nano-beam electron diffraction (NBED) technique. This method uses a quasi-parallel electron beam with a diameter of less than 20 nm at full width at half maximum (FWHM) and a convergence semi-angle of less than 1 mrad. By analyzing shifts in the positions of the diffraction spots within the patterns, variations in the lattice parameters of the sample—and consequently the strain—can be determined <span class="citation" data-cites="beche_strain_2013">(<a href="#ref-beche_strain_2013" role="doc-biblioref">Béché et al. 2013</a>)</span>. This advance, that by using NBED it is possible to measure strain, has been made possible through the development of high-speed direct electron detectors, capable of capturing hundreds of thousands of diffraction patterns, which can then be analyzed to extract a wealth of detailed information. <span class="citation" data-cites="pekin_situ_2018">(<a href="#ref-pekin_situ_2018" role="doc-biblioref">Pekin et al. 2018</a>)</span>. Strain measurements obtained through NBED experiments are generally easier to analyze because the local strain precision does not rely on directly determining the position of atomic columns. As a result, the field of view is basically unlimited, allowing for the use of nearly any sample and orientation<span class="citation" data-cites="ophus_four-dimensional_2019">(<a href="#ref-ophus_four-dimensional_2019" role="doc-biblioref">Ophus 2019</a>)</span>. <span id="eq-NBED"><span class="math display">\[
 d= 0.51\frac{\lambda}{\alpha}
 \tag{12}\]</span></span> There is a relationship between the probe’s FWHM (d) and the convergence angle (<span class="math inline">\(\alpha\)</span>) via the wavelength of the incident electron beam (<span class="math inline">\(\lambda\)</span>), called the Rayleigh criterion <a href="#eq-NBED" class="quarto-xref">Equation&nbsp;12</a>. One of the goal of NBED is to identify the optimal parameters for d and α that enable the creation of small probe for high spatial resolution to minimize the influence of dynamical diffraction<span class="citation" data-cites="beche_strain_2013">(<a href="#ref-beche_strain_2013" role="doc-biblioref">Béché et al. 2013</a>)</span>. <a href="#fig-NBED" class="quarto-xref">Figure&nbsp;1</a> Schematic of an NBED strain measurement, highlighting the inverse relationship between interatomic distance and diffraction disk spacing <span class="citation" data-cites="ophus_four-dimensional_2019">(<a href="#ref-ophus_four-dimensional_2019" role="doc-biblioref">Ophus 2019</a>)</span>.</p>
@@ -323,8 +330,8 @@ Figure&nbsp;2: NBED Schematic. (a) TEM speciemen near parallel electron probe on
 </figcaption>
 </figure>
 </div>
-<section id="measuring-lattice-vectors-from-nanobeam-electron-diffraction-patterns" class="level4" data-number="2.2.1">
-<h4 data-number="2.2.1" class="anchored" data-anchor-id="measuring-lattice-vectors-from-nanobeam-electron-diffraction-patterns"><span class="header-section-number">2.2.1</span> Measuring Lattice Vectors from Nanobeam Electron Diffraction Patterns</h4>
+<section id="measuring-lattice-vectors-from-nanobeam-electron-diffraction-patterns" class="level4" data-number="3.1.1">
+<h4 data-number="3.1.1" class="anchored" data-anchor-id="measuring-lattice-vectors-from-nanobeam-electron-diffraction-patterns"><span class="header-section-number">3.1.1</span> Measuring Lattice Vectors from Nanobeam Electron Diffraction Patterns</h4>
 <p>Strain measurement using the locations of diffracted peaks is a well-established application of Bragg’s law and has been successfully implemented through various experimental techniques.Accurate data collection is the first and most important phase in the Nanobeam Electron Diffraction(NBED) process. The sample must be placed near enough to the zone axis to enable illumination of several diffraction disks, although it need not be perfectly aligned.As shown schematically in <a href="#fig-NBED3" class="quarto-xref">Figure&nbsp;3</a>, a full diffraction pattern is recorded for every pixel in the reconstructed strain image. The locations of the diffraction disks are taken from these patterns and saved as subpixel-accurate coordinates in reciprocal space. Following the recording of every disk position, the local lattice vectors are computed using this data at every probe position by solving the system of linear <a href="#eq-linear" class="quarto-xref">Equation&nbsp;13</a> where B represents the reciprocal lattice matrix, L denotes the local lattice vectors, and P corresponds to the measured disk positions..<span class="citation" data-cites="Pekin_Gammer_Ciston_Minor_Ophus_2017">(<a href="#ref-Pekin_Gammer_Ciston_Minor_Ophus_2017" role="doc-biblioref">Pekin et al. 2017</a>)</span>.</p>
 <p><span id="eq-linear"><span class="math display">\[ B=L \cdot P  \tag{13}\]</span></span></p>
 <div id="fig-NBED3" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -350,28 +357,28 @@ Figure&nbsp;3: Experimental model showing a single nanobeam electron diffraction
 \tag{14}\]</span></span></p>
 </section>
 </section>
-<section id="cbed" class="level3" data-number="2.3">
-<h3 data-number="2.3" class="anchored" data-anchor-id="cbed"><span class="header-section-number">2.3</span> CBED</h3>
+<section id="cbed" class="level3" data-number="3.2">
+<h3 data-number="3.2" class="anchored" data-anchor-id="cbed"><span class="header-section-number">3.2</span> CBED</h3>
 <p>One popular TEM method for measuring strain is Convergent Beam Electron Diffraction (CBED). Large diffraction disks are produced when the material is illuminated with a strongly convergent beam (semi-angle 5–20 mrad) with a probe size less than 2 nm, resulting in a CBED pattern. These disks have many characteristics for low-index zone axes that need to be simulated using dynamical theory. The transmitted disk shows sharp High Order Laue Zone (HOLZ) lines away from these axes. These lines’ locations are extremely sensitive to lattice parameters, allowing for highly accurate strain measurements (<span class="math inline">\(2^{-4}\)</span>). Hough transforms are used to determine the positions of sharp HOLZ lines, and then semi-kinematical computations are used to extract the lattice parameters. Analysis of expanded HOLZ lines, which are usually the result of defects or strain relaxation, requires trial-and-error modeling with coupled dynamical and finite element simulations or delicate fitting processes. Since all experimental profiles showed HOLZ line broadening, this method was employed in this investigation <span class="citation" data-cites="beche_strain_2013">(<a href="#ref-beche_strain_2013" role="doc-biblioref">Béché et al. 2013</a>)</span>.</p>
 <p>Computer-assisted image analysis is crucial for quantitative assessment, improving precision and facilitating the automation of image processing activities. Orientation Imaging Microscopy (OIM) illustrates this automation by employing Kikuchi band detection in electron backscattering patterns to ascertain the orientations of individual grains. By automating this method, it becomes possible to evaluate thousands of patterns, resulting in detailed grain orientation maps. The Hough transform has been an essential instrument in these analyses, offering robust and noise-resistant automated band detection functionalities<span class="citation" data-cites="Krämer_Mayer_1999">(<a href="#ref-Krämer_Mayer_1999" role="doc-biblioref">Krämer and Mayer 1999</a>)</span>.</p>
 <p>First introduced by Paul Hough in 1962, the Hough transform was initially created for analyzing particle tracks in bubble chambers and represents one of the pioneering techniques for automating pattern recognition. In CBED patterns, there are fewer HOLZ lines to examine than Kikuchi bands in OIM, but the more distinct intensity distribution of HOLZ lines enables more accurate position determination. Nonetheless, current OIM software does not possess the precision needed for CBED analysis, which requires modifications to the Hough transform method to attain sub-pixel accuracy<span class="citation" data-cites="Krämer_Mayer_1999">(<a href="#ref-Krämer_Mayer_1999" role="doc-biblioref">Krämer and Mayer 1999</a>)</span>.</p>
 </section>
-<section id="hrtem-and-hrstem" class="level3" data-number="2.4">
-<h3 data-number="2.4" class="anchored" data-anchor-id="hrtem-and-hrstem"><span class="header-section-number">2.4</span> HRTEM and HRSTEM</h3>
+<section id="hrtem-and-hrstem" class="level3" data-number="3.3">
+<h3 data-number="3.3" class="anchored" data-anchor-id="hrtem-and-hrstem"><span class="header-section-number">3.3</span> HRTEM and HRSTEM</h3>
 <p>High resolution transmission electron microscopy(HRSTEM) is an imaging technique that determines the displacement of atomic columns from micrographs<span class="citation" data-cites="hytch_observing_2014">(<a href="#ref-hytch_observing_2014" role="doc-biblioref">Hÿtch and Minor 2014</a>)</span>. The process of HRTEM involves reflecting a plane wave onto the region of interest (ROI), which interacts with the sample to generate interference patterns that include atomic positions data. HRSTEM requires scanning the material with a very small electron and obtaining the signal using high-angle annular dark field (HAADF)[].BECHE EXAMPLES WAS NICE.</p>
 </section>
-<section id="dfeh" class="level3" data-number="2.5">
-<h3 data-number="2.5" class="anchored" data-anchor-id="dfeh"><span class="header-section-number">2.5</span> DFEH</h3>
+<section id="dfeh" class="level3" data-number="3.4">
+<h3 data-number="3.4" class="anchored" data-anchor-id="dfeh"><span class="header-section-number">3.4</span> DFEH</h3>
 </section>
-<section id="dstem" class="level3" data-number="2.6">
-<h3 data-number="2.6" class="anchored" data-anchor-id="dstem"><span class="header-section-number">2.6</span> 4DSTEM</h3>
+<section id="dstem" class="level3" data-number="3.5">
+<h3 data-number="3.5" class="anchored" data-anchor-id="dstem"><span class="header-section-number">3.5</span> 4DSTEM</h3>
 </section>
-<section id="py4stem" class="level3" data-number="2.7">
-<h3 data-number="2.7" class="anchored" data-anchor-id="py4stem"><span class="header-section-number">2.7</span> py4STEM</h3>
+<section id="py4stem" class="level3" data-number="3.6">
+<h3 data-number="3.6" class="anchored" data-anchor-id="py4stem"><span class="header-section-number">3.6</span> py4STEM</h3>
 </section>
 </section>
-<section id="conclusion" class="level2" data-number="3">
-<h2 data-number="3" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">3</span> Conclusion</h2>
+<section id="conclusion" class="level2" data-number="4">
+<h2 data-number="4" class="anchored" data-anchor-id="conclusion"><span class="header-section-number">4</span> Conclusion</h2>
 </section>
 <section id="references" class="level2 unnumbered">
 <h2 class="unnumbered anchored" data-anchor-id="references">References</h2>
@@ -411,6 +418,9 @@ Möbus, G., R. Schweinfest, T. Gemming, T. Wagner, and M. Rühle. 1998. <span>�
 </div>
 <div id="ref-ophus_four-dimensional_2019" class="csl-entry" role="listitem">
 Ophus, Colin. 2019. <span>“Four-Dimensional Scanning Transmission Electron Microscopy (4D-<span>STEM</span>): From Scanning Nanodiffraction to Ptychography and Beyond.”</span> <em>Microscopy and Microanalysis</em> 25 (3): 563–82. <a href="https://doi.org/10.1017/S1431927619000497">https://doi.org/10.1017/S1431927619000497</a>.
+</div>
+<div id="ref-Ophus_Zeltmann_Bruefach_Rakowski_Savitzky_Minor_Scott_2022" class="csl-entry" role="listitem">
+Ophus, Colin, Steven E. Zeltmann, Alexandra Bruefach, Alexander Rakowski, Benjamin H. Savitzky, Andrew M. Minor, and Mary C. Scott. 2022. <span>“Automated Crystal Orientation Mapping in py4DSTEM Using Sparse Correlation Matching.”</span> <em>Microscopy and Microanalysis</em> 28 (2): 390–403. <a href="https://doi.org/10.1017/S1431927622000101">https://doi.org/10.1017/S1431927622000101</a>.
 </div>
 <div id="ref-Pekin_Gammer_Ciston_Minor_Ophus_2017" class="csl-entry" role="listitem">
 Pekin, Thomas C., Christoph Gammer, Jim Ciston, Andrew M. Minor, and Colin Ophus. 2017. <span>“Optimizing Disk Registration Algorithms for Nanobeam Electron Diffraction Strain Mapping.”</span> <em>Ultramicroscopy</em> 176 (May): 170–76. <a href="https://doi.org/10.1016/j.ultramic.2016.12.021">https://doi.org/10.1016/j.ultramic.2016.12.021</a>.
