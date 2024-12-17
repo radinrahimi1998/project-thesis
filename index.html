@@ -8,7 +8,7 @@
 
 <meta name="author" content="Radin Rahimi">
 <meta name="author" content="Philipp Pelz">
-<meta name="dcterms.date" content="2024-12-11">
+<meta name="dcterms.date" content="2024-12-17">
 <meta name="keywords" content="Strain Mapping, py4DSTEM">
 
 <title>Project thesis</title>
@@ -164,7 +164,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 11, 2024</p>
+      <p class="date">December 17, 2024</p>
     </div>
   </div>
   
@@ -284,12 +284,24 @@ Table&nbsp;1: comparing different techniques for strain measurement with transmi
 <h4 data-number="2.1.2" class="anchored" data-anchor-id="peak-phase-analysis-pp"><span class="header-section-number">2.1.2</span> Peak Phase Analysis (PP)</h4>
 <p>The peak finding approach based on real space algorithm <span class="citation" data-cites="Li_Zhao_Xing_Su_Cheng_2013">(<a href="#ref-Li_Zhao_Xing_Su_Cheng_2013" role="doc-biblioref">Li et al. 2013</a>)</span>.This method relies on finding the locations of intensity peaks that correspond to the atomic column positions<span class="citation" data-cites="hytch_observing_2014">(<a href="#ref-hytch_observing_2014" role="doc-biblioref">Hÿtch and Minor 2014</a>)</span>.</p>
 </section>
+<section id="crystalline-strain-mapping" class="level4" data-number="2.1.3">
+<h4 data-number="2.1.3" class="anchored" data-anchor-id="crystalline-strain-mapping"><span class="header-section-number">2.1.3</span> Crystalline Strain Mapping</h4>
+<p>It involves comparing the deformed and undeformed states of the crystal lattice. This can be done either by analyzing the real space lattice vectors or the reciprocal lattice vectors. The calculated strain tensor provides information about the stretching, compression, and shearing of the material.</p>
+<p><span class="citation" data-cites="Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021">Savitzky et al. (<a href="#ref-Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021" role="doc-biblioref">2021</a>)</span> shows equations of Crystalline Strain Mapping.</p>
+<p>Fundamental Approach: The strain analysis focuses on an infinitesimal strain matrix that captures subtle material deformations. Key components of this analysis include:</p>
+<p>Reference basis vectors: <span id="eq-csm1"><span class="math display">\[a_0 = (a_{01}, a_{02}) \tag{5}\]</span></span> Deformed lattice vectors: <span id="eq-csm1"><span class="math display">\[a = (a_1, a_2) \tag{6}\]</span></span></p>
+<p>Transformation and Strain Calculation: The linear deformation of space is described by a transformation matrix <span class="math inline">\(T_{a_0 a}\)</span>, which relates reference and deformed lattice vectors through the equation: <span id="eq-csm2"><span class="math display">\[a = T_{a_0 a} a_0 \tag{7}\]</span></span> Under the assumption of small deformations, strain components are computed directly from the reciprocal lattice vectors’ transformation matrix <span class="math inline">\(T_{g_0 g}\)</span>:</p>
+<p>Longitudinal Strains: <span class="math display">\[\epsilon_{11} = 1 - T_{g_{11}}\]</span> <span id="eq-csm3"><span class="math display">\[\epsilon_{22} = 1 - T_{g_{22}} \tag{8}\]</span></span> Shear Strain: <span id="eq-csm4"><span class="math display">\[\epsilon_{12} = -\frac{1}{2}(T_{g_{12}} + T_{g_{21}}) \tag{9}\]</span></span> Rotation: <span id="eq-csm5"><span class="math display">\[\theta_R = \frac{1}{2}(T_{g_{12}} - T_{g_{21}}) \tag{10}\]</span></span></p>
+<p>Practical Implementation The strain mapping process involves:</p>
+<p>Performing an intensity-weighted fit to measured Bragg peak positions Calculating reciprocal lattice basis vectors <span class="math display">\[g = (g_1, g_2)\]</span> Determining reference vectors <span id="eq-csm6"><span class="math display">\[g_0 = (g_{01}, g_{02}) \tag{11}\]</span></span> Computing the transformation matrix and subsequent strain components</p>
+<p>This approach enables precise measurement of crystalline deformations at microscopic scales, providing critical insights into material behavior under stress and strain conditions.</p>
+</section>
 </section>
 <section id="nbed" class="level3" data-number="2.2">
 <h3 data-number="2.2" class="anchored" data-anchor-id="nbed"><span class="header-section-number">2.2</span> NBED</h3>
 <p>One method for measuring strain is the nano-beam electron diffraction (NBED) technique. This method uses a quasi-parallel electron beam with a diameter of less than 20 nm at full width at half maximum (FWHM) and a convergence semi-angle of less than 1 mrad. By analyzing shifts in the positions of the diffraction spots within the patterns, variations in the lattice parameters of the sample—and consequently the strain—can be determined <span class="citation" data-cites="beche_strain_2013">(<a href="#ref-beche_strain_2013" role="doc-biblioref">Béché et al. 2013</a>)</span>. This advance, that by using NBED it is possible to measure strain, has been made possible through the development of high-speed direct electron detectors, capable of capturing hundreds of thousands of diffraction patterns, which can then be analyzed to extract a wealth of detailed information. <span class="citation" data-cites="pekin_situ_2018">(<a href="#ref-pekin_situ_2018" role="doc-biblioref">Pekin et al. 2018</a>)</span>. Strain measurements obtained through NBED experiments are generally easier to analyze because the local strain precision does not rely on directly determining the position of atomic columns. As a result, the field of view is basically unlimited, allowing for the use of nearly any sample and orientation<span class="citation" data-cites="ophus_four-dimensional_2019">(<a href="#ref-ophus_four-dimensional_2019" role="doc-biblioref">Ophus 2019</a>)</span>. <span id="eq-NBED"><span class="math display">\[
 d= 0.51\frac{\lambda}{\alpha}
-\tag{5}\]</span></span> There is a relationship between the probe’s FWHM (d) and the convergence angle (<span class="math inline">\(\alpha\)</span>) via the wavelength of the incident electron beam (<span class="math inline">\(\lambda\)</span>), called the Rayleigh criterion <a href="#eq-NBED" class="quarto-xref">Equation&nbsp;5</a>. One of the goal of NBED is to identify the optimal parameters for d and α that enable the creation of small probe for high spatial resolution to minimize the influence of dynamical diffraction<span class="citation" data-cites="beche_strain_2013">(<a href="#ref-beche_strain_2013" role="doc-biblioref">Béché et al. 2013</a>)</span>. <a href="#fig-NBED" class="quarto-xref">Figure&nbsp;1</a> Schematic of an NBED strain measurement, highlighting the inverse relationship between interatomic distance and diffraction disk spacing <span class="citation" data-cites="ophus_four-dimensional_2019">(<a href="#ref-ophus_four-dimensional_2019" role="doc-biblioref">Ophus 2019</a>)</span>.</p>
+\tag{12}\]</span></span> There is a relationship between the probe’s FWHM (d) and the convergence angle (<span class="math inline">\(\alpha\)</span>) via the wavelength of the incident electron beam (<span class="math inline">\(\lambda\)</span>), called the Rayleigh criterion <a href="#eq-NBED" class="quarto-xref">Equation&nbsp;12</a>. One of the goal of NBED is to identify the optimal parameters for d and α that enable the creation of small probe for high spatial resolution to minimize the influence of dynamical diffraction<span class="citation" data-cites="beche_strain_2013">(<a href="#ref-beche_strain_2013" role="doc-biblioref">Béché et al. 2013</a>)</span>. <a href="#fig-NBED" class="quarto-xref">Figure&nbsp;1</a> Schematic of an NBED strain measurement, highlighting the inverse relationship between interatomic distance and diffraction disk spacing <span class="citation" data-cites="ophus_four-dimensional_2019">(<a href="#ref-ophus_four-dimensional_2019" role="doc-biblioref">Ophus 2019</a>)</span>.</p>
 <div id="fig-NBED" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NBED-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -313,8 +325,8 @@ Figure&nbsp;2: NBED Schematic. (a) TEM speciemen near parallel electron probe on
 </div>
 <section id="measuring-lattice-vectors-from-nanobeam-electron-diffraction-patterns" class="level4" data-number="2.2.1">
 <h4 data-number="2.2.1" class="anchored" data-anchor-id="measuring-lattice-vectors-from-nanobeam-electron-diffraction-patterns"><span class="header-section-number">2.2.1</span> Measuring Lattice Vectors from Nanobeam Electron Diffraction Patterns</h4>
-<p>Strain measurement using the locations of diffracted peaks is a well-established application of Bragg’s law and has been successfully implemented through various experimental techniques.Accurate data collection is the first and most important phase in the Nanobeam Electron Diffraction(NBED) process. The sample must be placed near enough to the zone axis to enable illumination of several diffraction disks, although it need not be perfectly aligned.As shown schematically in <a href="#fig-NBED3" class="quarto-xref">Figure&nbsp;3</a>, a full diffraction pattern is recorded for every pixel in the reconstructed strain image. The locations of the diffraction disks are taken from these patterns and saved as subpixel-accurate coordinates in reciprocal space. Following the recording of every disk position, the local lattice vectors are computed using this data at every probe position by solving the system of linear <a href="#eq-linear" class="quarto-xref">Equation&nbsp;6</a> where B represents the reciprocal lattice matrix, L denotes the local lattice vectors, and P corresponds to the measured disk positions..<span class="citation" data-cites="Pekin_Gammer_Ciston_Minor_Ophus_2017">(<a href="#ref-Pekin_Gammer_Ciston_Minor_Ophus_2017" role="doc-biblioref">Pekin et al. 2017</a>)</span>.</p>
-<p><span id="eq-linear"><span class="math display">\[ B=L \cdot P  \tag{6}\]</span></span></p>
+<p>Strain measurement using the locations of diffracted peaks is a well-established application of Bragg’s law and has been successfully implemented through various experimental techniques.Accurate data collection is the first and most important phase in the Nanobeam Electron Diffraction(NBED) process. The sample must be placed near enough to the zone axis to enable illumination of several diffraction disks, although it need not be perfectly aligned.As shown schematically in <a href="#fig-NBED3" class="quarto-xref">Figure&nbsp;3</a>, a full diffraction pattern is recorded for every pixel in the reconstructed strain image. The locations of the diffraction disks are taken from these patterns and saved as subpixel-accurate coordinates in reciprocal space. Following the recording of every disk position, the local lattice vectors are computed using this data at every probe position by solving the system of linear <a href="#eq-linear" class="quarto-xref">Equation&nbsp;13</a> where B represents the reciprocal lattice matrix, L denotes the local lattice vectors, and P corresponds to the measured disk positions..<span class="citation" data-cites="Pekin_Gammer_Ciston_Minor_Ophus_2017">(<a href="#ref-Pekin_Gammer_Ciston_Minor_Ophus_2017" role="doc-biblioref">Pekin et al. 2017</a>)</span>.</p>
+<p><span id="eq-linear"><span class="math display">\[ B=L \cdot P  \tag{13}\]</span></span></p>
 <div id="fig-NBED3" class="quarto-float quarto-figure quarto-figure-center anchored">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-NBED3-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -325,7 +337,7 @@ Figure&nbsp;3: Experimental model showing a single nanobeam electron diffraction
 </figcaption>
 </figure>
 </div>
-<p>By defining <span class="math inline">\(L\)</span> and <span class="math inline">\(L_0\)</span> as the local lattice vector and the reference lattice vector, respectively, and <span class="math inline">\(T\)</span> as the transformation matrix, the strain matrix can be determined if infinitesimal strain theory is assumed <span class="citation" data-cites="Pekin_Gammer_Ciston_Minor_Ophus_2017">(<a href="#ref-Pekin_Gammer_Ciston_Minor_Ophus_2017" role="doc-biblioref">Pekin et al. 2017</a>)</span>. This theory describes deformation under the assumption that displacements are much smaller than any relevant dimension of the body, ensuring that the geometry and constitutive properties of the material at each point remain unchanged <span class="citation" data-cites="Zhang_2019">(<a href="#ref-Zhang_2019" role="doc-biblioref">Zhang 2019</a>)</span>, as outlined in <a href="#eq-matrix" class="quarto-xref">Equation&nbsp;7</a>. <span id="eq-matrix"><span class="math display">\[
+<p>By defining <span class="math inline">\(L\)</span> and <span class="math inline">\(L_0\)</span> as the local lattice vector and the reference lattice vector, respectively, and <span class="math inline">\(T\)</span> as the transformation matrix, the strain matrix can be determined if infinitesimal strain theory is assumed <span class="citation" data-cites="Pekin_Gammer_Ciston_Minor_Ophus_2017">(<a href="#ref-Pekin_Gammer_Ciston_Minor_Ophus_2017" role="doc-biblioref">Pekin et al. 2017</a>)</span>. This theory describes deformation under the assumption that displacements are much smaller than any relevant dimension of the body, ensuring that the geometry and constitutive properties of the material at each point remain unchanged <span class="citation" data-cites="Zhang_2019">(<a href="#ref-Zhang_2019" role="doc-biblioref">Zhang 2019</a>)</span>, as outlined in <a href="#eq-matrix" class="quarto-xref">Equation&nbsp;14</a>. <span id="eq-matrix"><span class="math display">\[
 \begin{bmatrix}
 \varepsilon_{xx} &amp; \frac{1}{2} (\varepsilon_{xy} - \theta) \\
 \frac{1}{2} (\varepsilon_{yx} + \theta) &amp; \varepsilon_{yy}
@@ -335,7 +347,7 @@ Figure&nbsp;3: Experimental model showing a single nanobeam electron diffraction
 1 &amp; 0 \\
 0 &amp; 1
 \end{bmatrix}
-\tag{7}\]</span></span></p>
+\tag{14}\]</span></span></p>
 </section>
 </section>
 <section id="cbed" class="level3" data-number="2.3">
@@ -411,6 +423,9 @@ Peters, J. J. 2024. <span>“Strain++: Theory of Geometric Phase Analysis.”</s
 </div>
 <div id="ref-robinson_coherent_2009" class="csl-entry" role="listitem">
 Robinson, Ian, and Ross Harder. 2009. <span>“Coherent x-Ray Diffraction Imaging of Strain at the Nanoscale.”</span> <em>Nature Materials</em> 8 (4): 291–98. <a href="https://doi.org/10.1038/nmat2400">https://doi.org/10.1038/nmat2400</a>.
+</div>
+<div id="ref-Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021" class="csl-entry" role="listitem">
+Savitzky, Benjamin H., Steven E. Zeltmann, Lauren A. Hughes, Hamish G. Brown, Shiteng Zhao, Philipp M. Pelz, Thomas C. Pekin, et al. 2021. <span>“py4DSTEM: A Software Package for Four-Dimensional Scanning Transmission Electron Microscopy Data Analysis.”</span> <em>Microscopy and Microanalysis</em> 27 (4): 712–43. <a href="https://doi.org/10.1017/S1431927621000477">https://doi.org/10.1017/S1431927621000477</a>.
 </div>
 <div id="ref-tillmann_impact_2000" class="csl-entry" role="listitem">
 Tillmann, K, M Lentzen, and R Rosenfeld. 2000. <span>“Impact of Column Bending in High-Resolution Transmission Electron Microscopy on the Strain Evaluation of <span>GaAs</span>/<span>InAs</span>/<span>GaAs</span> Heterostructures.”</span> <em>Ultramicroscopy</em> 83 (1): 111–28. <a href="https://doi.org/10.1016/S0304-3991(99)00175-8">https://doi.org/10.1016/S0304-3991(99)00175-8</a>.
