@@ -8,7 +8,7 @@
 
 <meta name="author" content="Radin Rahimi">
 <meta name="author" content="Philipp Pelz">
-<meta name="dcterms.date" content="2024-12-17">
+<meta name="dcterms.date" content="2025-01-17">
 <meta name="keywords" content="Strain Mapping, py4DSTEM">
 
 <title>Project thesis</title>
@@ -164,7 +164,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">December 17, 2024</p>
+      <p class="date">January 17, 2025</p>
     </div>
   </div>
   
@@ -365,10 +365,31 @@ Figure&nbsp;3: Experimental model showing a single nanobeam electron diffraction
 </section>
 <section id="hrtem-and-hrstem" class="level3" data-number="3.3">
 <h3 data-number="3.3" class="anchored" data-anchor-id="hrtem-and-hrstem"><span class="header-section-number">3.3</span> HRTEM and HRSTEM</h3>
-<p>High resolution transmission electron microscopy(HRSTEM) is an imaging technique that determines the displacement of atomic columns from micrographs<span class="citation" data-cites="hytch_observing_2014">(<a href="#ref-hytch_observing_2014" role="doc-biblioref">Hÿtch and Minor 2014</a>)</span>. The process of HRTEM involves reflecting a plane wave onto the region of interest (ROI), which interacts with the sample to generate interference patterns that include atomic positions data. HRSTEM requires scanning the material with a very small electron and obtaining the signal using high-angle annular dark field (HAADF)[].BECHE EXAMPLES WAS NICE.</p>
+<p>High resolution transmission electron microscopy(HRSTEM) is an imaging technique that determines the displacement of atomic columns from micrographs<span class="citation" data-cites="hytch_observing_2014">(<a href="#ref-hytch_observing_2014" role="doc-biblioref">Hÿtch and Minor 2014</a>)</span>. The process of HRTEM involves reflecting a plane wave onto the region of interest (ROI), which interacts with the sample to generate interference patterns that include atomic positions data. HRSTEM requires scanning the material with a very small electron and obtaining the signal using high-angle annular dark field (HAADF)[].High-resolution techniques enable the acquisition of strain maps with excellent spatial resolution and minimal analysis. However, this high resolution often limits the field of view, particularly in High-Resolution Transmission Electron Microscopy (HRTEM) due to CCD size constraints. HRSTEM reduces this limitation as image size is primarily determined by the scanning area, which can be potentially expanded significantly. Acquiring a high-quality HRSTEM image with minimal noise and distortions within 1-2 minutes likely restricts the maximum scan size to approximately 400 nm x 400 nm (8k x 8k pixels) when using a pixel dwell time of 1-2 microseconds.In the example provided by <strong>?@fig-HRSTEM</strong>, <span class="citation" data-cites="beche_strain_2013">(<a href="#ref-beche_strain_2013" role="doc-biblioref">Béché et al. 2013</a>)</span> demonstrates strain mapping of a single-layer SiGe sample (a) and a multilayer SiGe sample (d). It is evident that the profile of the single-layer sample (c) does not fit well in the middle, while the multilayer sample (f) is more accurate.</p>
+<div id="Fig-HRSTEM" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="Fig-HRSTEM-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/HRSTEM.png" id="Fig-HRSTEM" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="Fig-HRSTEM-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="dfeh" class="level3" data-number="3.4">
 <h3 data-number="3.4" class="anchored" data-anchor-id="dfeh"><span class="header-section-number">3.4</span> DFEH</h3>
+<p>A relatively new method for measuring &nbsp;strain is dark field electron holography(DFEH). The method involves interfering an electron beam passing through a reference region of the sample with another beam traversing the region of interest, using an electron biprism. Therefore, the reference area needs to be between 2 and 3 μm from the region of interest. A Lorentz lens can be used in place of the conventional objective lens to increase the field of view. Because of the increased interactions with the sample, operating at lower voltage (200kV)also causes an increase in the electrons’ phase shift <span class="citation" data-cites="beche_strain_2013">(<a href="#ref-beche_strain_2013" role="doc-biblioref">Béché et al. 2013</a>)</span>.Conventional electron holography (CEH), which analyzes phase alterations in transmitted electron waves brought on by the specimen’s electromagnetic field, is different from diffraction-based electron holography (DFEH) <a href="#fig-DFEH" class="quarto-xref">Figure&nbsp;5</a>. DFEH is the only method that can measure the geometric phase shift, which is another phase shift caused by strain in a diffracted electron wave moving through a strained crystal. Although strain-related structures can be seen using geometric phase shifts in standard TEM techniques, the amount of the phase shift cannot be determined. By comparing a strained-region-traversing object wave with a strain-free reference wave, DFEH uses interferometry to precisely measure this geometric phase change. DFEH has been useful in strain mapping a variety of materials, such as ferroelectrics and semiconductors <span class="citation" data-cites="Murakami_Niitsu_Kaneko_Tanigaki_Sasaki_Akase_Shindo_Ohkubo_Hono_2016">(<a href="#ref-Murakami_Niitsu_Kaneko_Tanigaki_Sasaki_Akase_Shindo_Ohkubo_Hono_2016" role="doc-biblioref">Murakami et al. 2016</a>)</span>.</p>
+<div id="fig-DFEH" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-DFEH-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/DFEH.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-DFEH-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: (a)Conventional Electron Holography (CEH): Shows interference between an electron wave going through a vacuum (reference wave) and a thin specimen (object wave). The central region in the diffraction pattern is impacted by both waves.(b) Dark-Field EH by using g reflection: Electron interference caused by Bragg reflection (e.g., 002 reflection). A reference wave from an unstrained zone is interfered with by an object wave moving across a strained region.(c) DFEH By using -g reflection: This illustrates a variant of DFEH that makes use of an alternative Bragg reflection <span class="citation" data-cites="Murakami_Niitsu_Kaneko_Tanigaki_Sasaki_Akase_Shindo_Ohkubo_Hono_2016">(<a href="#ref-Murakami_Niitsu_Kaneko_Tanigaki_Sasaki_Akase_Shindo_Ohkubo_Hono_2016" role="doc-biblioref">Murakami et al. 2016</a>)</span>.
+</figcaption>
+</figure>
+</div>
 </section>
 <section id="dstem" class="level3" data-number="3.5">
 <h3 data-number="3.5" class="anchored" data-anchor-id="dstem"><span class="header-section-number">3.5</span> 4DSTEM</h3>
@@ -415,6 +436,9 @@ Mahr, Christoph, Knut Müller-Caspary, Tim Grieb, Marco Schowalter, Thorsten Meh
 </div>
 <div id="ref-mobus_iterative_1998" class="csl-entry" role="listitem">
 Möbus, G., R. Schweinfest, T. Gemming, T. Wagner, and M. Rühle. 1998. <span>“Iterative Structure Retrieval Techniques in <span>HREM</span>: A Comparative Study and a Modular Program Package.”</span> <em>Journal of Microscopy</em> 190 (1): 109–30. <a href="https://doi.org/10.1046/j.1365-2818.1998.3120865.x">https://doi.org/10.1046/j.1365-2818.1998.3120865.x</a>.
+</div>
+<div id="ref-Murakami_Niitsu_Kaneko_Tanigaki_Sasaki_Akase_Shindo_Ohkubo_Hono_2016" class="csl-entry" role="listitem">
+Murakami, Yasukazu, Kodai Niitsu, Syuhei Kaneko, Toshiaki Tanigaki, Taisuke Sasaki, Zentaro Akase, Daisuke Shindo, Tadakatsu Ohkubo, and Kazuhiro Hono. 2016. <span>“Strain Measurement in Ferromagnetic Crystals Using Dark-Field Electron Holography.”</span> <em>Applied Physics Letters</em> 109 (19): 193102. <a href="https://doi.org/10.1063/1.4967005">https://doi.org/10.1063/1.4967005</a>.
 </div>
 <div id="ref-ophus_four-dimensional_2019" class="csl-entry" role="listitem">
 Ophus, Colin. 2019. <span>“Four-Dimensional Scanning Transmission Electron Microscopy (4D-<span>STEM</span>): From Scanning Nanodiffraction to Ptychography and Beyond.”</span> <em>Microscopy and Microanalysis</em> 25 (3): 563–82. <a href="https://doi.org/10.1017/S1431927619000497">https://doi.org/10.1017/S1431927619000497</a>.
