@@ -8,7 +8,7 @@
 
 <meta name="author" content="Radin Rahimi">
 <meta name="author" content="Philipp Pelz">
-<meta name="dcterms.date" content="2025-01-17">
+<meta name="dcterms.date" content="2025-01-19">
 <meta name="keywords" content="Strain Mapping, py4DSTEM">
 
 <title>Project thesis</title>
@@ -164,7 +164,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">January 17, 2025</p>
+      <p class="date">January 19, 2025</p>
     </div>
   </div>
   
@@ -405,6 +405,72 @@ Figure&nbsp;6: (a)Conventional Electron Holography (CEH): Shows interference bet
 <section id="dstem" class="level3" data-number="3.5">
 <h3 data-number="3.5" class="anchored" data-anchor-id="dstem"><span class="header-section-number">3.5</span> 4DSTEM</h3>
 <p>4D-STEM represents an evolution of traditional STEM microscopy by using a pixelated detector instead of conventional detectors that capture the electron flux scattered to each angle in the diffraction plane. While conventional STEM measures just one measurement per beam position, 4DSTEM captures a complete two-dimensional diffraction pattern at each point in real space beam. This creates a four-dimensional dataset that can be analyzed in real space to yield information compared to traditional electron diffraction. On the other hand, it can be analysed in diffraction space to yield virtual images including both standard STEM imaging modes and virtual imaging techniques. Diffraction patterns help scientists to map samples, such as crystalline structure, orientation mapping, and strain mapping. The overlap between Bragg diffraction disks provides additional information that helps separate the effects of the electron beam shape from the actual sample structure, allowing researchers to determine the sample’s potential directly<span class="citation" data-cites="Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021">(<a href="#ref-Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021" role="doc-biblioref">Savitzky et al. 2021</a>)</span>.</p>
+<section id="mathematical-framework-and-core-concepts-of-four-dimensional-stem" class="level4" data-number="3.5.1">
+<h4 data-number="3.5.1" class="anchored" data-anchor-id="mathematical-framework-and-core-concepts-of-four-dimensional-stem"><span class="header-section-number">3.5.1</span> Mathematical Framework and Core Concepts of Four-Dimensional STEM</h4>
+<p><span class="citation" data-cites="Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021">(<a href="#ref-Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021" role="doc-biblioref">Savitzky et al. 2021</a>)</span> explain mathematical so well. As it can be seen in <a href="#fig-4DSTEM" class="quarto-xref">Figure&nbsp;7</a>, there are different probe wavefunctions in a STEM experiment: <span class="math inline">\(\psi_0(k)\)</span> is the initial probe formed in the diffraction region, <span class="math inline">\(\psi_0(r)\)</span> is the probe focused onto the surface of the specimen, <span class="math inline">\(\psi(k)\)</span> is the far-field probe in the detector region and <span class="math inline">\(\psi(r)\)</span> is the probe at the exit plane of the specimen. ‘r’ represents positions in real space (actual physical locations) and ‘k’ represents positions in diffraction space, where <span class="math inline">\(|k| = \frac{\alpha}{\lambda}\)</span>. The STEM scanning process: The probe is moved to different positions (R) using scan coils. At each position, it’s written as <span class="math inline">\(\psi_0(r-R)\)</span>. This means the probe function is shifted by R from its original position.</p>
+<div id="fig-4DSTEM" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-4DSTEM-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="images/4DSTEM.png" class="img-fluid figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-4DSTEM-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Diagram showing how an electron beam travels in a STEM setup<span class="citation" data-cites="Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021">(<a href="#ref-Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021" role="doc-biblioref">Savitzky et al. 2021</a>)</span>
+</figcaption>
+</figure>
+</div>
+<p>In general 4DSTEM is four-dimensional arrray of intensity value in real space and diffraction space #eq-I. <span id="eq-I"><span class="math display">\[
+I=I(R_x, R_y, k_x, k_y)
+=I(R, k)
+\tag{15}\]</span></span></p>
+<p>The intensity in a 4D-STEM dataset can be modeled as <a href="#eq-I2" class="quarto-xref">Equation&nbsp;16</a> while each intensity is given by the electron flux passing through the detector pixel or where the beam vector location is R, by the square modulus of the beam wavefunction integrated over the detector pixel at k.</p>
+<p><span id="eq-I2"><span class="math display">\[
+I(R, k) = \int_{k_x}^{k_x+\Delta k} \int_{k_y}^{k_y+\Delta k} |\psi(R, k)|^2 dk_x dk_y \approx |\psi(R, k)|^2
+\tag{16}\]</span></span> In STEM experiment the image I(R) can be modeled as integrating wavefunction multiple detector geometry (D(k)) <a href="#eq-Iimage" class="quarto-xref">Equation&nbsp;17</a> <span id="eq-Iimage"><span class="math display">\[
+I(R) = \int |\psi(R, k)|^2 D(k) dk
+\tag{17}\]</span></span></p>
+<p>Intensity of virtual image can write down as <a href="#eq-Ivirtual" class="quarto-xref">Equation&nbsp;18</a></p>
+<p><span id="eq-Ivirtual"><span class="math display">\[
+I_v(R) = \int I(R, k) D(k) dk
+\tag{18}\]</span></span></p>
+<p>Fourier transformations provide the relatively straightforward evolution of the probe from the probeforming aperture to the sample plane and from the sample plane to the detector <a href="#eq-probe1" class="quarto-xref">Equation&nbsp;19</a> and <a href="#eq-probe2" class="quarto-xref">Equation&nbsp;20</a></p>
+<p><span id="eq-probe1"><span class="math display">\[
+\psi_0(r) = \mathcal{F} \Psi_0(k),
+\tag{19}\]</span></span> <span id="eq-probe2"><span class="math display">\[
+\Psi(k) = \mathcal{F}^{-1} \psi(r),
+\tag{20}\]</span></span></p>
+<p>which <span class="math inline">\(\mathcal{F}\)</span> is form real to diffraction region and <span class="math inline">\(\mathcal{F}^{-1}\)</span> is the inverse fouriertransform from diffraction to real region.</p>
+<p>The function <span class="math inline">\(\Psi_0(k)\)</span> represents the top-hat aperture function in the reciprocal space (Fourier space), defined as:</p>
+<p><span id="eq-21"><span class="math display">\[
+\Psi_0(k) = A(k_\text{max}),
+\tag{21}\]</span></span></p>
+<p><span class="math display">\[
+where:
+A(k_\text{max}) =
+\begin{cases}
+1, &amp; \text{if } |k| \leq k_\text{max}, \\
+0, &amp; \text{otherwise}.
+\end{cases}
+\]</span></p>
+<p>Here, <span class="math inline">\(k_\text{max}\)</span> denotes the maximum scattering vector for the probe. In real space, the corresponding incident wavefunction <span class="math inline">\(\psi_0(r)\)</span> forms an Airy disk, which is given by:</p>
+<p><span id="eq-22"><span class="math display">\[
+\psi_0(r) = \frac{J_1(2\pi k_\text{max} |r|)}{\sqrt{\pi} |r|},
+\tag{22}\]</span></span></p>
+<p>where <span class="math inline">\(J_1\)</span> is the first-order Bessel function of the first kind, and the peak amplitude of <span class="math inline">\(\psi_0(r)\)</span> is proportional to <span class="math inline">\(\sqrt{\pi k_\text{max}}\)</span>.</p>
+<p>Without a sample, the wavefunctions <span class="math inline">\(\Psi(k)\)</span> in reciprocal space and <span class="math inline">\(\psi_0(r)\)</span> in real space are identical up to scaling and phase factors, ensuring that the detector image directly corresponds to the electron beam shape from the probe aperture.</p>
+<p>For a sample interaction, the wavefunction <span class="math inline">\(\psi(r)\)</span> evolves due to the sample’s potential. This change is governed by the time-independent Schrödinger equation:</p>
+<p><span id="eq-23"><span class="math display">\[
+\frac{\partial \psi(r)}{\partial z} =
+\frac{i \lambda}{4 \pi}
+\left[
+\frac{\partial^2 \psi(r)}{\partial x^2} +
+\frac{\partial^2 \psi(r)}{\partial y^2}
+\right]
++ i \sigma V(r) \psi(r),
+\tag{23}\]</span></span></p>
+<p>where:</p>
+<p><span class="math inline">\(i\)</span> is the imaginary unit, <span class="math inline">\(\lambda\)</span> is the wavelength of the electron beam, <span class="math inline">\(\sigma\)</span> is the relativistically corrected electron–matter interaction constant, <span class="math inline">\(V(r)\)</span> is the electrostatic potential inside the sample.</p>
+<p>This equation neglects the scan coordinate <span class="math inline">\(R\)</span> for simplicity.</p>
+</section>
 </section>
 <section id="py4stem" class="level3" data-number="3.6">
 <h3 data-number="3.6" class="anchored" data-anchor-id="py4stem"><span class="header-section-number">3.6</span> py4STEM</h3>
