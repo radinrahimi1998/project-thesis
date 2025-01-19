@@ -469,7 +469,29 @@ A(k_\text{max}) =
 \tag{23}\]</span></span></p>
 <p>where:</p>
 <p><span class="math inline">\(i\)</span> is the imaginary unit, <span class="math inline">\(\lambda\)</span> is the wavelength of the electron beam, <span class="math inline">\(\sigma\)</span> is the relativistically corrected electron–matter interaction constant, <span class="math inline">\(V(r)\)</span> is the electrostatic potential inside the sample.</p>
-<p>This equation neglects the scan coordinate <span class="math inline">\(R\)</span> for simplicity.</p>
+<p>This equation neglects the scan coordinate <span class="math inline">\(R\)</span> for simplicity. The interaction constant <span class="math inline">\(\sigma\)</span> is expressed as:</p>
+<p><span id="eq-24"><span class="math display">\[
+\sigma = \frac{2 \pi \gamma m_e q_e \lambda}{h^2},
+\tag{24}\]</span></span></p>
+<p>where <span class="math inline">\(\gamma\)</span> is the relativistic correction factor, <span class="math inline">\(m_e\)</span> is the electron mass, <span class="math inline">\(q_e\)</span> is the electron charge, <span class="math inline">\(\lambda\)</span> is the relativistically corrected electron wavelength, and <span class="math inline">\(h\)</span> is the Planck constant.</p>
+<p>To numerically solve the interaction of the electron beam with the sample, the multislice method is employed. This approach uses a split-step method since the two operators on the right-hand side of equation <a href="#eq-23" class="quarto-xref">Equation&nbsp;23</a> do not commute. The sample is divided into <span class="math inline">\(N\)</span> slices, each having a thickness <span class="math inline">\(\Delta z\)</span>. For a given slice, the 2D electrostatic potential <span class="math inline">\(V_n(r)\)</span> is determined by integrating over <span class="math inline">\(\Delta z\)</span>:</p>
+<p><span id="eq-25"><span class="math display">\[
+V_n(r) = \int_{z-\Delta z/2}^{z+\Delta z/2} V(r) \, dz.
+\tag{25}\]</span></span></p>
+<p>The transmission operator, assuming infinitesimally thin slices, can then be written as:</p>
+<p><span id="eq-26"><span class="math display">\[
+\psi(r) = T(r)\psi_0(r) = e^{i \sigma V_n(r)} \psi_0(r).
+\tag{26}\]</span></span></p>
+<p>Between slices, where the electrostatic potential is assumed to be zero, the electron wave is advanced using the free-space propagation operator. This is efficiently performed in Fourier space:</p>
+<p><span id="eq-27"><span class="math display">\[
+\psi(r) = \mathcal{F}_{k \to r} \left[ e^{i \lambda \Delta z |k|^2} \mathcal{F}_{r \to k} \psi_0(r) \right],
+\tag{27}\]</span></span></p>
+<p>where the propagation operator <span class="math inline">\(e^{i \lambda \Delta z |k|^2}\)</span> uses the 2D inverse spatial coordinate <span class="math inline">\(k = k_x^2 + k_y^2\)</span>.</p>
+<p>The final wavefunction after interaction with the sample, referred to as the exit wave, is computed by alternating transmission and propagation operators for <span class="math inline">\(N\)</span> slices. This can be expressed as:</p>
+<p><span id="eq-28"><span class="math display">\[
+\psi(r) = \prod_{n=1}^N \left\{ \mathcal{F}_{k \to r} \left[ e^{i \lambda \Delta z |k|^2} \mathcal{F}_{r \to k} \left( e^{i \sigma V_n(r)} \right) \right] \right\} \psi_0(r).
+\tag{28}\]</span></span></p>
+<p>This method is computationally intensive for large-scale simulations, as it requires <span class="math inline">\(N\)</span> transmission operations and <span class="math inline">\(N-1\)</span> propagation operations. However, advancements such as the PRISM algorithm significantly improve efficiency for 4D-STEM simulations, extending to inelastic scattering experiments like STEM-EELS.</p>
 </section>
 </section>
 <section id="py4stem" class="level3" data-number="3.6">
