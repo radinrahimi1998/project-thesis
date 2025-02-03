@@ -34,6 +34,8 @@ keywords:
 
 abstract: "Strain measurement and mapping are essential for understanding the structural properties of materials at the nanoscale, particularly in semiconductor devices and structural materials. Various techniques, including X-ray diffraction, high-resolution electron microscopy (HREM), and transmission electron microscopy (TEM), offer different trade-offs in precision, spatial resolution, and field of view. Among these, four-dimensional scanning transmission electron microscopy (4D-STEM) has emerged as a powerful tool for nanoscale strain mapping by analyzing Bragg-scattered electrons to determine local lattice spacing. This thesis explores six TEM-based strain measurement methods—NBED, CBED, HRTEM, HRSTEM, DFEH, and 4D-STEM—highlighting their capabilities and limitations. A special focus is given to the mathematical framework and computational tools, such as py4DSTEM, which enhance the accuracy of 4D-STEM analysis. By integrating high spatial resolution with a large field of view, 4D-STEM provides a versatile approach to strain analysis in electronic devices, in situ mechanical testing, and other nanoscale systems. The findings underscore the potential of TEM-based techniques to bridge the gap between precision and scalability in strain mapping for next-generation materials and devices."
 
+
+
 bibliography: My Library.bib
 
 number-sections: true
@@ -41,13 +43,25 @@ jupyter: python3
 
 format:
   pdf:
-    toc: true       # Enable Table of Contents
-    toc-depth: 3    # Set ToC depth
+    toc: true
+    number-sections: true
+    toc-depth: 3
+    include-in-header:
+      text: |
+        \usepackage{titling}
+        \pretitle{\begin{center}\Huge\bfseries}
+        \posttitle{\par\end{center}\vspace{2cm}}
+
     lof: true       # Enable List of Figures
-    lot: true       # Enable List of Tables (if needed)
+    include-before-body: |
+      \clearpage  % Forces a new page before the List of Figures
+    header-includes: |
+      \usepackage{etoolbox}
+      \pretocmd{\listoffigures}{\clearpage}{}{}  % Forces LoF to a new page
 
 ---
 
+\newpage
 
 ## Introduction
 
@@ -119,7 +133,7 @@ The distortion tensor is calculated by differentiating the displacement field:
 $$e = \begin{pmatrix}
 \frac{\partial u_{x}}{\partial x} & \frac{\partial u_{x}}{\partial y} \
 \frac{\partial u_{y}}{\partial x} & \frac{\partial u_{y}}{\partial y}
-\end{pmatrix}$$
+\end{pmatrix}$${#eq-5}
 From this tensor, key mechanical properties are derived:
 
 Strain: $\varepsilon = \frac{1}{2}(e + e^{T})$
@@ -127,49 +141,48 @@ Rotation: $\omega = \frac{1}{2}(e - e^{T})$
 Dilation: $\Delta = \text{Trace}[e]$
 
 #### Peak Phase Analysis (PP)
-The peak finding approach based on real space algorithm [@Li_Zhao_Xing_Su_Cheng_2013].This method relies on finding the locations of intensity peaks that correspond to the atomic column positions[@hytch_observing_2014].
-Strain analysis utilizing Transmission Electron Microscopy (TEM) images relies on the premise that there is a direct correlation between the intensity peaks observed in the image and the positions of the atomic columns within the sample. @fig-pp illustrates the standard steps involved in the strain mapping process [@Galindo_Pizarro_Molina_2009].
+The peak finding approach is  based on real space algorithm [@Li_Zhao_Xing_Su_Cheng_2013].This method relies on finding the locations of intensity peaks that correspond to the atomic column positions[@hytch_observing_2014].
+Strain analysis utilizing Transmission Electron Microscopy (TEM) images relies on the premise that there is a direct correlation between the intensity peaks observed in the image and the positions of the atomic columns within the sample. @fig-pp illustrates the standard steps  in the strain mapping process [@Galindo_Pizarro_Molina_2009].
 
 ![Diagram illustrating the steps involved in strain mapping through Peak Pairs Analysis [@Galindo_Pizarro_Molina_2009].](images/PP.png){#fig-pp}
 
 
-#### Crystalline Strain Mapping
-It involves comparing the deformed and undeformed states of the crystal lattice. This can be done either by analyzing the real space lattice vectors or the reciprocal lattice vectors. The calculated strain tensor provides information about the stretching, compression, and shearing of the material.
+### Crystalline Strain Mapping
+Crystalline Strain Mapping involves comparing the deformed and undeformed states of the crystal lattice. This can be done by analyzing the real space lattice vectors or the reciprocal lattice vectors. The calculated strain tensor provides information about the material's stretching, compression, and shearing.
 
-@Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021 shows equations of Crystalline Strain Mapping.
+[@Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021] shows equations of Crystalline Strain Mapping.
 
-Fundamental Approach:
+#### Fundamental Approach
 The strain analysis focuses on an infinitesimal strain matrix that captures subtle material deformations. Key components of this analysis include:
 
-Reference basis vectors: $$a_0 = (a_{01}, a_{02})$${#eq-csm1}
+Reference basis vectors: $$a^0 = (a_{1}^0, a_{2}^0)$${#eq-csm1}
 Deformed lattice vectors: $$a = (a_1, a_2)$$ {#eq-csm1}
 
 Transformation and Strain Calculation:
-The linear deformation of space is described by a transformation matrix $T_{a_0 a}$, which relates reference and deformed lattice vectors through the equation:
-$$a = T_{a_0 a} a_0$${#eq-csm2}
-Under the assumption of small deformations, strain components are computed directly from the reciprocal lattice vectors' transformation matrix $T_{g_0 g}$:
+The linear deformation of space is described by a transformation matrix $T^a$, which relates reference and deformed lattice vectors through the equation:
+$$a = T^a a^0$${#eq-csm2}
+Under the assumption of small deformations, strain components are computed directly from the reciprocal lattice vectors' transformation matrix $T_{g0} \to g$:
 
 Longitudinal Strains:
-$$\epsilon_{11} = 1 - T_{g_{11}}$$
-$$\epsilon_{22} = 1 - T_{g_{22}}$${#eq-csm3}
+$$\epsilon_{11} = 1 - T_{11}^g$$
+$$\epsilon_{22} = 1 - T_{22}^g$${#eq-csm3}
 Shear Strain:
-$$\epsilon_{12} = -\frac{1}{2}(T_{g_{12}} + T_{g_{21}})$${#eq-csm4}
+$$\epsilon_{12} = -\frac{1}{2}(T_{12}^g + T_{21}^g)$${#eq-csm4}
 Rotation:
-$$\theta_R = \frac{1}{2}(T_{g_{12}} - T_{g_{21}})$${#eq-csm5}
+$$\theta_R = \frac{1}{2}(T_{12}^g - T_{21}^g)$${#eq-csm5}
 
 Practical Implementation
 The strain mapping process involves:
 
 Performing an intensity-weighted fit to measured Bragg peak positions
 Calculating reciprocal lattice basis vectors $$g = (g_1, g_2)$$
-Determining reference vectors $$g_0 = (g_{01}, g_{02})$${#eq-csm6}
-Computing the transformation matrix and subsequent strain components
+Determining reference vectors $$g^0 = (g_{1}^0, g_{2}^0)$$
+Computing the transformation matrix and subsequent strain components.
 
 This approach enables precise measurement of crystalline deformations at microscopic scales, providing critical insights into material behavior under stress and strain conditions.
 
 ### Orientation Mapping
-Polycrystalline materials, which are composed of many small grains arranged randomly, have properties like mechanical strength, optical response and thermal conductivity that are influenced by the density and orientation of grain boundaries. therefor, orientation mapping of these grains is important to understand and optimizing their properties. One new approach to orientation mapping in TEM involves diffraction space measurements. Diffraction patterns contains Bragg spots that are inversely proportional to the atomic plane spacing, perpendicular to electron beam direction. Different techniques like NBED or four-dimensional STEM(4DSTEM) can be used to orientation mapping. To analyze 4DSTEM datasets, automated crystal orientation mapping (ACOM) is often used. This involves template matching diffraction patterns to identify grain orientations. ACOM has been widely adopted in materials science. The flexibility of ACOM has allowed its application in diverse experiments, including liquid cell measurements and scanning confocal electron diffraction. Additionally, ACOM is often paired with precession electron diffraction, where the STEM beam rotates around a cone to improve the clarity of diffraction patterns [@Ophus_Zeltmann_Bruefach_Rakowski_Savitzky_Minor_Scott_2022].
-
+Polycrystalline materials, composed of many small grains arranged randomly, have properties like mechanical strength, optical response, and thermal conductivity that are influenced by the density and orientation of grain boundaries. Therefore, orientation mapping of these grains is important to understand and optimize their properties. One new approach to orientation mapping in TEM involves diffraction space measurements. Diffraction patterns contain Bragg spots that are inversely proportional to the atomic plane spacing and perpendicular to the direction of the electron beam. Different techniques like NBED or four-dimensional STEM(4DSTEM) can be used for orientation mapping. To analyze 4DSTEM datasets, automated crystal orientation mapping (ACOM) is often used. This involves template-matching diffraction patterns to identify grain orientations. ACOM has been widely adopted in materials science. The flexibility of ACOM has allowed its application in diverse experiments, including liquid cell measurements and scanning confocal electron diffraction. Additionally, ACOM is often paired with precession electron diffraction, where the STEM beam rotates around a cone to improve the clarity of diffraction patterns [@Ophus_Zeltmann_Bruefach_Rakowski_Savitzky_Minor_Scott_2022].
 
 
 
@@ -187,15 +200,15 @@ Polycrystalline materials, which are composed of many small grains arranged rand
 
 ## Methods
 ### NBED
-One method for measuring strain is the nano-beam electron diffraction (NBED) technique. This method uses a quasi-parallel electron beam with a diameter of less than 20 nm at full width at half maximum (FWHM) and a convergence semi-angle of less than 1 mrad. By analyzing shifts in the positions of the diffraction spots within the patterns, variations in the lattice parameters of the sample—and consequently the strain—can be determined [@beche_strain_2013]. This advance, that by using NBED it is possible to measure strain, has been made possible through the development of high-speed direct electron detectors, capable of capturing hundreds of thousands of diffraction patterns, which can then be analyzed to extract a wealth of detailed information. [@pekin_situ_2018]. Strain measurements obtained through NBED experiments are generally easier to analyze because the local strain precision does not rely on directly determining the position of atomic columns. As a result, the field of view is basically unlimited, allowing for the use of nearly any sample and orientation[@ophus_four-dimensional_2019].
+The nano-beam electron diffraction (NBED) technique is one method for measuring strain. This method uses a quasi-parallel electron beam with a diameter of less than 20 nm at full width at half maximum (FWHM) and a convergence semi-angle of less than 1 mrad. By analyzing shifts in the positions of the diffraction spots within the patterns, variations in the lattice parameters of the sample, and consequently the strain, can be determined [@beche_strain_2013]. This advance in using NBED makes it possible to measure strain, which has been made possible through the development of high-speed direct electron detectors capable of capturing hundreds of thousands of diffraction patterns, which can then be analyzed to extract a wealth of detailed information. [@pekin_situ_2018]. Strain measurements obtained through NBED experiments are generally easier to analyze because the local strain precision does not rely on directly determining the position of atomic columns. As a result, the field of view is unlimited, allowing for using nearly any sample and orientation[@ophus_four-dimensional_2019].
 $$
 d= 0.51\frac{\lambda}{\alpha}
 $${#eq-NBED}
-There is a relationship between the probe's FWHM (d) and the convergence angle ($\alpha$) via the wavelength of the incident electron beam ($\lambda$), called the Rayleigh criterion @eq-NBED. One of the goal of NBED is to identify the optimal parameters for d and α that enable the creation of small probe for high spatial resolution to minimize the influence of dynamical diffraction[@beche_strain_2013]. @fig-NBED Schematic of an NBED strain measurement, highlighting the inverse relationship between interatomic distance and diffraction disk spacing [@ophus_four-dimensional_2019]. 
+There is a relationship between the probe's FWHM (d) and the convergence angle ($\alpha$) via the wavelength of the incident electron beam ($\lambda$), called the Rayleigh criterion @eq-NBED. One of the goals of NBED is to identify the optimal parameters for (d) and ($\alpha$) that enable the creation of a small probe for high spatial resolution to minimize the influence of dynamical diffraction[@beche_strain_2013]. @fig-NBED Schematic of  NBED strain measurement, highlighting the inverse relationship between interatomic distance and diffraction disk spacing [@ophus_four-dimensional_2019].
  
 ![Schematic of NBED strain measurement](images/NBED1.png){#fig-NBED}
 
-An article @cooper_strain_2024 presents @fig-NBED-2, which depicts a near-parallel electron beam directed at a {110} silicon specimen. The beam's full width at half maximum (FWHM) measures approximately 6 nm. In nano-beam electron diffraction (NBED), this parallel beam is scanned over the target region, capturing diffraction patterns. These patterns are then analyzed to calculate strain by determining the shifts in the diffracted spots. The analysis utilizes specialized automated software developed internally at CEA.
+An article @cooper_strain_2024 presents @fig-NBED-2, which depicts a near-parallel electron beam directed at a {110} silicon specimen. The beam's full width at half maximum (FWHM) measures approximately 6 nm. In nano-beam electron diffraction (NBED), this parallel beam is scanned over the target region, capturing diffraction patterns. These patterns are then analyzed to calculate strain by determining the shifts in the diffracted spots. The analysis is efficiently performed using specialized automated software developed internally at CEA, ensuring accurate and reliable results.
 
 ![NBED Schematic. (a) TEM speciemen near parallel electron probe on a {110} Si (b) showing FWHM (c)&(d) diffraction pattern is recorded at eache point from which the strain can be determined in STEM mode and using software developed at CEA for peak fitting. [@cooper_strain_2024]](images/NBED2.png){#fig-NBED-2}
 
@@ -203,8 +216,7 @@ An article @cooper_strain_2024 presents @fig-NBED-2, which depicts a near-parall
 
 #### Measuring Lattice Vectors from Nanobeam Electron Diffraction Patterns
 
-Strain measurement using the locations of diffracted peaks is a well-established application of Bragg's law and has been successfully implemented through various experimental techniques.Accurate data collection is the first and most important phase in the Nanobeam Electron Diffraction(NBED) process. The sample must be placed near enough to the zone axis to enable illumination of several diffraction disks, although it need not be perfectly aligned.As shown schematically in  @fig-NBED3, a full diffraction pattern is recorded for every pixel in the reconstructed strain image. The locations of the diffraction disks are taken from these patterns and saved as subpixel-accurate coordinates in reciprocal space. Following the recording of every disk position, the local lattice vectors are computed using this data at every probe position by solving the system of linear  @eq-linear where B represents the reciprocal lattice matrix, L denotes the local lattice vectors, and  P corresponds to the measured disk positions..[@Pekin_Gammer_Ciston_Minor_Ophus_2017].
-
+Strain measurement using the locations of diffracted peaks is a well-established application of Bragg's law and has been successfully implemented through various experimental techniques. Accurate data collection is the first and most important phase in the Nanobeam Electron Diffraction(NBED) process. The sample must be placed near enough to the zone axis to illuminate several diffraction disks, although it need not be perfectly aligned. As shown schematically in  @fig-NBED3, a full diffraction pattern is recorded for every pixel in the reconstructed strain image. The locations of the diffraction disks are taken from these patterns and saved as subpixel-accurate coordinates in reciprocal space. Following recording every disk position, the local lattice vectors are computed using this data at every probe position by solving the system of linear  @eq-linear where B represents the reciprocal lattice matrix, L denotes the local lattice vectors, and  P corresponds to the measured disk positions [@Pekin_Gammer_Ciston_Minor_Ophus_2017].
 $$ B=L \cdot P $${#eq-linear}
 
 ![Experimental model showing a single nanobeam electron diffraction (NBED) observation. An imagine with particular peaks at each disk position is created by correlating the measured diffraction pattern with a central disk template [@Pekin_Gammer_Ciston_Minor_Ophus_2017].](images/NBED3.png){#fig-NBED3}
@@ -227,21 +239,20 @@ $${#eq-matrix}
 
 ### CBED
 
-One popular TEM method for measuring strain is Convergent Beam Electron Diffraction (CBED). Large diffraction disks are produced when the material is illuminated with a strongly convergent beam (semi-angle 5–20 mrad) with a probe size less than 2 nm, resulting in a CBED pattern. These disks have many characteristics for low-index zone axes that need to be simulated using dynamical theory. The transmitted disk shows sharp High Order Laue Zone (HOLZ) lines away from these axes. These lines' locations are extremely sensitive to lattice parameters, allowing for highly accurate strain measurements ($2^{-4}$).
-Hough transforms are used to determine the positions of sharp HOLZ lines, and then semi-kinematical computations are used to extract the lattice parameters. Analysis of expanded HOLZ lines, which are usually the result of defects or strain relaxation, requires trial-and-error modeling with coupled dynamical and finite element simulations or delicate fitting processes. Since all experimental profiles showed HOLZ line broadening, this method was employed in this investigation [@beche_strain_2013].
+Convergent Beam Electron Diffraction (CBED) is a popular TEM method for measuring strain. Large diffraction disks are produced when the material is illuminated with a strongly convergent beam (semi-angle 5–20 mrad) with a probe size less than 2 nm, resulting in a CBED pattern. These disks, with their many characteristics for low-index zone axes, are accurately simulated using dynamic theory. The transmitted disk reveals sharp High Order Laue Zone (HOLZ) lines away from these axes. The precision of this technique is evident in the sensitivity of these lines to lattice parameters, enabling highly accurate strain measurements ($2^{-4}$). Hough transforms are used to determine the positions of sharp HOLZ lines, and then semi-kinematical computations are used to extract the lattice parameters. Analysis of expanded HOLZ lines, which are usually the result of defects or strain relaxation, requires trial-and-error modeling with coupled dynamical and finite element simulations or delicate fitting processes. Since all experimental profiles showed HOLZ line broadening, this method was employed in this investigation [@beche_strain_2013].
 
-Computer-assisted image analysis is crucial for quantitative assessment, improving precision and facilitating the automation of image processing activities. Orientation Imaging Microscopy (OIM) illustrates this automation by employing Kikuchi band detection in electron backscattering patterns to ascertain the orientations of individual grains. By automating this method, it becomes possible to evaluate thousands of patterns, resulting in detailed grain orientation maps. The Hough transform has been an essential instrument in these analyses, offering robust and noise-resistant automated band detection functionalities[@Krämer_Mayer_1999].
+Computer-assisted image analysis is crucial for quantitative assessment, improving precision and facilitating the automation of image processing activities. Orientation Imaging Microscopy (OIM) illustrates this automation by employing Kikuchi band detection in electron backscattering patterns to ascertain the orientations of individual grains. Automating this method makes it possible to evaluate thousands of patterns, resulting in detailed grain orientation maps. The Hough transform has been an essential instrument in these analyses, offering robust and noise-resistant automated band detection functionalities[@Krämer_Mayer_1999].
 
 First introduced by Paul Hough in 1962, the Hough transform was initially created for analyzing particle tracks in bubble chambers and represents one of the pioneering techniques for automating pattern recognition. In CBED patterns, there are fewer HOLZ lines to examine than Kikuchi bands in OIM, but the more distinct intensity distribution of HOLZ lines enables more accurate position determination. Nonetheless, current OIM software does not possess the precision needed for CBED analysis, which requires modifications to the Hough transform method to attain sub-pixel accuracy[@Krämer_Mayer_1999].
 
 ### HRTEM and HRSTEM
 
-High resolution transmission electron microscopy(HRSTEM) is an imaging technique that determines the displacement of atomic columns from micrographs[@hytch_observing_2014]. The process of HRTEM involves reflecting a plane wave onto the region of interest (ROI), which interacts with the sample to generate interference patterns that include atomic positions data. HRSTEM requires scanning the material with a very small electron and obtaining the signal using high-angle annular dark field (HAADF)[].High-resolution techniques enable the acquisition of strain maps with excellent spatial resolution and minimal analysis. However, this high resolution often limits the field of view, particularly in High-Resolution Transmission Electron Microscopy (HRTEM) due to CCD size constraints. HRSTEM reduces this limitation as image size is primarily determined by the scanning area, which can be potentially expanded significantly. Acquiring a high-quality HRSTEM image with minimal noise and distortions within 1-2 minutes likely restricts the maximum scan size to approximately 400 nm x 400 nm (8k x 8k pixels) when using a pixel dwell time of 1-2 microseconds.In the example provided by (@fig-HRSTEM), [@beche_strain_2013] demonstrates strain mapping of a single-layer SiGe sample (a) and a multilayer SiGe sample (d). It is evident that the profile of the single-layer sample (c) does not fit well in the middle, while the multilayer sample (f) is more accurate.
+High resolution techniques enable the acquisition of strain maps with excellent spatial resolution and minimal analysis. However, this high resolution often limits the field of view, particularly in High-Resolution Transmission Electron Microscopy (HRTEM) due to CCD size constraints. HRSTEM reduces this limitation as image size is primarily determined by the scanning area, which can expand significantly. Acquiring a high-quality HRSTEM image with minimal noise and distortions within 1-2 minutes likely restricts the maximum scan size to approximately 400 nm x 400 nm (8k x 8k pixels) when using a pixel dwell time of 1-2 microseconds. In the example provided by (@fig-HRSTEM), [@beche_strain_2013] demonstrates strain mapping of a single-layer SiGe sample (a) and a multilayer SiGe sample (d). The single-layer sample (c) profile does not fit well in the middle, while the multilayer sample (f) is more accurate.
 
 ![(a) HRSTEM image of the single-layer sample.(b) Strain map in the x-direction derived from (a) using Geometric Phase Analysis (GPA).(c) Strain profile extracted from (b), averaged over a 5 nm region (indicated by the white dashed square).(d) HRSTEM image of the multilayer sample.(e) Strain map in the x-direction obtained from (d) using GPA.(f) Strain profile extracted from (e), averaged over a 5 nm region (indicated by the white dashed square) [@beche_strain_2013].](images/HRSTEM.png){#fig-HRSTEM}
 
-On the other hand on (@fig-HRTEM) can be seen (a) single layer and multilayer can not be reached so  (b) is a montage of three different images to show the four SiGe layers at same time.
-In order to avoid the issue of contrast inversion in the image, HRTEM requires a very thin lamella (often less than 50 nm) with stable thickness throughout the field of view. Additionally, the FIB-prepared sample produces quite noisy findings, and the HRTEM contrast is highly sensitive to surface defects or surface amorphous layers. The strain accuracy was evaluated at 1.5 × 10−3 in both HRTEM profiles from the substrate section. In the center of the SiGe layers, the strain measurement closely matches the simulations, and the technique’s accuracy can be estimated at 2 × 10−3 for both samples. However, significant noise is present at the Si/SiGe interfaces due to phase discontinuities, which reduces the accuracy to 3 × 10−3 for the single-layer sample and as much as 6 × 10−3 for the multilayer sample. For HRSTEM, it’s worth noting that the image presents.
+On the other hand, on (@fig-HRTEM), HRTEM figure, it can be seen that (a) a single layer and a multilayer can not be reached, so (b) it is a montage of three different images showing the four SiGe layers simultaneously. In order to avoid the issue of contrast inversion in the image, HRTEM requires a very thin lamella (often less than 50 nm) with stable thickness throughout the field of view. Additionally, the FIB-prepared sample produces quite noisy findings, and the HRTEM contrast is highly sensitive to surface defects or the surface of amorphous layers. The strain accuracy was evaluated at 1.5 × 10−3 in both HRTEM profiles from the substrate section. In the center of the SiGe layers, the strain measurement closely matches the simulations, and the technique’s accuracy can be estimated at 2 × 10−3 for both samples. However, significant noise is present at the Si/SiGe interfaces due to phase discontinuities, which reduces the accuracy to 3 × 10−3 for the single-layer sample and as much as 6 × 10−3 for the multilayer sample. For HRSTEM, it is worth noting that the image presents.
+
 
 ![(a) The single layer sample's HRTEM image. (b) GPA-derived strain map in the x direction from image (a). (c) A strain profile averaged over 5 nm (white dashed square) was taken from map (b). (d) A montage of the multilayer sample's three HRTEM pictures. (e) Using GPA, the strain map in the x direction was acquired from (d). (f) A strain profile averaged over 5 nm (white dashed square) was taken from map (e) [@beche_strain_2013].](images/HRTEM.png){#fig-HRTEM}
 
@@ -251,17 +262,17 @@ In order to avoid the issue of contrast inversion in the image, HRTEM requires a
 
 
 ### DFEH
-A relatively new method for measuring  strain is dark field electron holography(DFEH). The method involves interfering an electron beam passing through a reference region of the sample with another beam traversing the region of interest, using an electron biprism. Therefore, the reference area needs to be between 2 and 3 μm from the region of interest. A Lorentz lens can be used in place of the conventional objective lens to increase the field of view. Because of the increased interactions with the sample, operating at lower voltage (200kV)also causes an increase in the electrons' phase shift [@beche_strain_2013].Conventional electron holography (CEH), which analyzes phase alterations in transmitted electron waves brought on by the specimen's electromagnetic field, is different from diffraction-based electron holography (DFEH) @Fig-DFEH. DFEH is the only method that can measure the geometric phase shift, which is another phase shift caused by strain in a diffracted electron wave moving through a strained crystal. Although strain-related structures can be seen using geometric phase shifts in standard TEM techniques, the amount of the phase shift cannot be determined. By comparing a strained-region-traversing object wave with a strain-free reference wave, DFEH uses interferometry to precisely measure this geometric phase change. DFEH has been useful in strain mapping a variety of materials, such as ferroelectrics and semiconductors [@Murakami_Niitsu_Kaneko_Tanigaki_Sasaki_Akase_Shindo_Ohkubo_Hono_2016].
+A relatively new method for measuring strain is dark field electron holography(DFEH). The method involves interfering with an electron beam passing through a reference region of the sample with another beam traversing the region of interest, using an electron biprism. Therefore, the reference area must be between 2 and 3 μm from the region of interest. A Lorentz lens can be used instead of the conventional objective lens to increase the field of view. Because of the increased interactions with the sample, operating at a lower voltage (200kV)also causes an increase in the electrons' phase shift [@beche_strain_2013]. Conventional electron holography (CEH), which analyzes phase alterations in transmitted electron waves brought on by the specimen's electromagnetic field, differs from diffraction-based electron holography (DFEH) @Fig-DFEH. DFEH is the only method to measure the geometric phase shift, another phase shift caused by strain in a diffracted electron wave moving through a strained crystal. Although strain-related structures can be seen using geometric phase shifts in standard TEM techniques, the amount of the phase shift cannot be determined. By comparing a strained-region-traversing object wave with a strain-free reference wave, DFEH uses interferometry to measure this geometric phase change precisely. DFEH has been helpful in strain mapping a variety of materials, such as ferroelectrics and semiconductors [@Murakami_Niitsu_Kaneko_Tanigaki_Sasaki_Akase_Shindo_Ohkubo_Hono_2016].
 
 
-![(a)Conventional Electron Holography (CEH): Shows interference between an electron wave going through a vacuum (reference wave) and a thin specimen (object wave). The central region in the diffraction pattern is impacted by both waves.(b) Dark-Field EH by using g reflection: Electron interference caused by Bragg reflection (e.g., 002 reflection). A reference wave from an unstrained zone is interfered with by an object wave moving across a strained region.(c) DFEH By using -g reflection: This illustrates a variant of DFEH that makes use of an alternative Bragg reflection [@Murakami_Niitsu_Kaneko_Tanigaki_Sasaki_Akase_Shindo_Ohkubo_Hono_2016].](images/DFEH.png){#fig-DFEH}
+![(a)Conventional Electron Holography (CEH): Shows interference between an electron wave going through a vacuum (reference wave) and a thin specimen (object wave). The central region in the diffraction pattern is impacted by both waves.(b) Dark-Field EH by using g reflection: Electron interference caused by Bragg reflection (e.g., 002 reflection). A reference wave from an unstrained zone is interfered with by an object wave moving across a strained region.(c) DFEH By using -g reflection: This illustrates a variant of DFEH that makes use of an alternative Bragg reflection [@Murakami_Niitsu_Kaneko_Tanigaki_Sasaki_Akase_Shindo_Ohkubo_Hono_2016].](images/DFEH.png){#fig-DFEH width=90%}
 
 
 
 ### 4DSTEM
-4D-STEM represents an evolution of traditional STEM microscopy by using a pixelated detector instead of conventional detectors that capture the electron flux scattered to each angle in the diffraction plane. While conventional STEM measures just one measurement per beam position, 4DSTEM captures a complete two-dimensional diffraction pattern at each point in real space beam. This creates a four-dimensional dataset that can be analyzed in real space to yield information compared to traditional electron diffraction. On the other hand, it can be analysed in diffraction space to yield  virtual images including both standard STEM imaging modes and virtual imaging techniques. Diffraction patterns help scientists to map samples, such as crystalline structure, orientation mapping, and strain mapping. The overlap between Bragg diffraction disks provides additional information that helps separate the effects of the electron beam shape from the actual sample structure, allowing researchers to determine the sample's potential directly[@Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021].
+4D-STEM represents an evolution of traditional STEM microscopy by using a pixelated detector instead of conventional detectors that capture the electron flux scattered to each angle in the diffraction plane. While conventional STEM measures just one measurement per beam position, 4DSTEM captures a two-dimensional diffraction pattern at each point in a real space beam. This creates a four-dimensional dataset that can be analyzed in real space to yield information compared to traditional electron diffraction. On the other hand, it can be analyzed in diffraction space to yield virtual images, including both standard STEM imaging modes and virtual imaging techniques. Diffraction patterns help scientists to map samples, such as crystalline structure, orientation mapping, and strain mapping. The overlap between Bragg diffraction disks provides additional information that helps separate the effects of the electron beam shape from the actual sample structure, allowing researchers to determine the sample's potential directly [@Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021].
 
-#### Mathematical Framework and Core Concepts of Four-Dimensional STEM
+#### Mathematical Framework and Core Concepts of 4DSTEM
 
 [@Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021] explain mathematical so well.
 As it can be seen in @fig-4DSTEM, there are different probe wavefunctions in a STEM experiment: $\psi_0(k)$ is the initial probe formed in the diffraction region, $\psi_0(r)$ is the probe focused onto the surface of the specimen, $\psi(k)$ is the far-field probe in the detector region and $\psi(r)$ is the probe at the exit plane of the specimen.
@@ -269,7 +280,8 @@ As it can be seen in @fig-4DSTEM, there are different probe wavefunctions in a S
 
 ![Diagram showing how an electron beam travels in a STEM setup[@Savitzky_Zeltmann_Hughes_Brown_Zhao_Pelz_Pekin_Barnard_Donohue_DaCosta_et_al._2021]](images/4DSTEM.png){#fig-4DSTEM}
 
-In general 4DSTEM  is four-dimensional arrray of intensity value in real space and diffraction space #eq-I.
+In general 4DSTEM  is four-dimensional arrray of intensity value in real space and diffraction space @eq-I.
+
 $$
 I=I(R_x, R_y, k_x, k_y)
 =I(R, k)
@@ -424,7 +436,13 @@ This method is computationally intensive for large-scale simulations, as it requ
 
 
 ## Conclusion
+This thesis has studied the adaptability of four-dimensional scanning transmission electron microscopy (4DSTEM) as a potent instrument for nanoscale strain mapping and crystal orientation determination in materials. 4DSTEM, which provides a large field of view and excellent spatial resolution, is crucial for studying materials at the atomic scale and has demonstrated a wide range of possible applications by analyzing Bragg-scattered electrons and determining local lattice spacings.
+We investigated the benefits and drawbacks of six different TEM-based strain measuring methods: NBED, CBED, HRTEM, HRSTEM, DFEH, and 4DSTEM. We concentrated on computer programs such as py4DSTEM, which are crucial for improving the precision and dependability of 4DSTEM data analysis. Each technique has certain advantages and disadvantages.
+Concerning semiconductor devices, in situ mechanical testing, and the creation of next-generation materials, this work emphasizes the critical role that 4DSTEM plays in expanding the characterization of nanoscale materials. 4DSTEM has excellent potential for the future of strain mapping and crystal orientation analysis by bridging the gap between precision and scalability. This will encourage deeper insights into the structural features of materials, which are crucial for materials science and engineering innovation.
+Future developments in computational and experimental methods will probably result in more accurate and effective strain mapping and crystal orientation analysis as 4DSTEM develops. Developments in electron-detecting technology and increasingly complex data processing algorithms are expected to improve the precision of these observations. In addition to creating new opportunities in areas like semiconductor research, materials engineering, and the creation of next-generation technologies, this will enhance the role of 4DSTEM in materials characterization.
 
+
+\newpage
 ## References {.unnumbered}
 
 :::{#refs}
